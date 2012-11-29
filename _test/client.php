@@ -16,9 +16,9 @@
 
 /// SETUP - NEED TO BE CHANGED
 //http://localhost/moodle/webservice/rest/server.php?wstoken=81270fbe1b3c31c1c71eae38475b0eec&wsfunction=local_exfunctions_download&downloadpath=uploadtest.txt&moodlewsrestformat=json
-$token = '81270fbe1b3c31c1c71eae38475b0eec';
+$token = 'cf43f71e96ae4e1ea37b1e2cb3370eae';
 $domainname = 'http://localhost/moodle';
-$functionname = 'core_files_get_files';
+$functionname = 'core_user_get_users_by_id';
 
 // REST RETURNED VALUES FORMAT
 $restformat = 'json'; //Also possible in Moodle 2.2 and later: 'json'
@@ -27,7 +27,7 @@ $restformat = 'json'; //Also possible in Moodle 2.2 and later: 'json'
 //////// moodle_user_create_users ////////
 
 /// PARAMETERS - NEED TO BE CHANGED IF YOU CALL A DIFFERENT FUNCTION
-$params = array('contextid' => '15');
+$params = array('userids[0]'=> '3');
 
 /// REST CALL
 //header('Content-Type: text/plain');
@@ -38,10 +38,12 @@ $curl = new curl;
 $restformat = ($restformat == 'json')?'&moodlewsrestformat=' . $restformat:'';
 $resp = $curl->post($serverurl . $restformat, $params);
 //print_r($resp);
+echo "<pre>";
 var_dump(json_decode($resp));
+echo "</pre>";
 /*
-81270fbe1b3c31c1c71eae38475b0eec	Admin User	test
-7f7704a1be159241b88351144bd5065a	Admin User	exfunctions
-2caccd83285cf074ddbfe5ec09baa864	Taro Tanaka	exfunctions
-3ad8554dbf72606635ec5ce89dad73f2	Jiro Suzuki	exfunctions
+cf43f71e96ae4e1ea37b1e2cb3370eae	Admin User	test
+e323cbd02efed34ee58d022345187d0d	Admin User	exfunctions
+65eff623cec8b141c8e37c214f460b90	Taro Tanaka	exfunctions
+b53b5f72165d1c7a99d463f9d93584db	Jiro Suzuki	exfunctions
  */

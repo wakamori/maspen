@@ -73,9 +73,9 @@ class local_exfunctions_external extends external_api {
 				new external_value(PARAM_TEXT, 'An array with all the filenames in all subdirectories')
 		);
 	}
-
-	//-----------------------------------------------------------------------------------------
 	
+	//-----------------------------------------------------------------------------------------
+
 	public static function download_parameters() {
 		return new external_function_parameters(
 				array(
@@ -208,22 +208,23 @@ class local_exfunctions_external extends external_api {
 		);
 	}
 
-	public static function view_assignment($name, $id, $viewAll = 0) {
+	public static function view_assignment($name="", $id=0, $viewAll = 0) {
 		global $CFG, $DB, $PAGE;
-		/** config.php */
 		require_once("$CFG->dirroot/config.php");
-		/** Include locallib.php */
 		require_once("$CFG->dirroot/mod/assign/locallib.php");
-
+		require_once("$CFG->libdir/datalib.php");
+		require_once("$CFG->libdir/dml/moodle_database.php");
+		
 		self::validate_parameters(self::view_assignment_parameters(), array('name'=>$name, 'id'=>$id, 'viewAll'=>$viewAll));
+
 		if($name!="" && $id==0){
-			$id = (int)self::get_course_module_id_from_assign_name($name);
+			$id = self::get_course_module_id_from_assign_name($name);
 		}
 		elseif ($name=="" && $id!=0){
-			$id = $id;
+			
 		}
 		else{
-			new moodle_exception('invalid params');
+			throw new moodle_exception('invalid params');
 		}
 
 		//	$url = new moodle_url('/mod/assign/view.php', array('id' => $id)); // Base URL
@@ -272,7 +273,7 @@ class local_exfunctions_external extends external_api {
 	public static function submit_assignment_parameters() {
 		return new external_function_parameters(
 				array(
-						'name' => new external_value(PARAM_TEXT, 'assign name', VALUE_DEFAULT, ""),
+						'name' => new external_value(PARAM_RAW, 'assign name', VALUE_DEFAULT, ""),
 						'id'   => new external_value(PARAM_INT, 'id', VALUE_DEFAULT, 0),
 						'text' => new external_value(PARAM_RAW, 'text')
 				)
@@ -286,8 +287,8 @@ class local_exfunctions_external extends external_api {
 		/** Include library */
 		require_once("$CFG->dirroot/mod/assign/locallib.php");
 		require_once("$CFG->dirroot/mod/assign/lib.php");
-			
-		self::validate_parameters(self::submit_assignment_parameters(), array('name'=>$name, 'id'=>$id, 'text'=>$text));
+		
+		//self::validate_parameters(self::submit_assignment_parameters(), array('name'=>$name, 'id'=>$id, 'text'=>$text));
 		if($name!="" && $id==0){
 			$id = (int)self::get_course_module_id_from_assign_name($name);
 		}
@@ -402,8 +403,10 @@ class local_exfunctions_external extends external_api {
 	function get_course_module_id_from_assign_name($name) {
 		global $CFG, $DB;
 		require_once("$CFG->libdir/dml/moodle_database.php");
-		$instance = $DB->get_record_sql("SELECT id FROM mdl_assign WHERE name='$name'")->id;
-		$contextid = $DB->get_record_sql("SELECT id FROM mdl_course_modules WHERE instance=$instance")->id;
-		return $contextid;
+		$assign = $DB->get_record_sql("SELECT * FROM mdl_assign WHERE name='$name'");
+		$instance = $assign->id;
+		$course_modules = $DB->get_record_sql("SELECT * FROM mdl_course_modules WHERE module=1 AND instance=$instance");
+		$id = $course_modules->id;
+		return $id;
 	}
 }
