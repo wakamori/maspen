@@ -2751,6 +2751,7 @@ class assign {
      */
     private function view_submission_page() {
         global $CFG, $DB, $USER, $PAGE;
+        $sub = $this->get_submission(1);
 
         $o = '';
         $o .= $this->get_renderer()->render(new assign_header($this->get_instance(),
@@ -4573,6 +4574,61 @@ class assign {
         return false;
     }
 
+    function submit_assign($id, $text) {
+    	global $USER, $CFG;
+
+    	// Include submission form
+    	require_once($CFG->dirroot . '/mod/assign/submission_form.php');
+
+    	// Need submit permission to submit an assignment
+    	require_capability('mod/assign:submit', $this->context);
+
+    	//    	$mform = new mod_assign_submission_form(null, array($this, $data));
+    	//    	if ($mform->is_cancelled()) {
+    	//    		return true;
+    	//    	}
+    	//    	if ($data = $mform->get_data()) {
+    	for($i = 0; $i < 9; ++$i){
+    		$num = mt_rand(0,9);
+    		$itemid .= $num;
+    	}
+    	$data = array(
+    			"onlinetext_editor" => array(
+    					"text" => (string)$text,
+    					"format" => "1",
+    					"itemid" => (string)$itemid
+    			),
+    			"id" => (int)$id,
+    			"action" => "savesubmission",
+    			"submitbutton" => "Save changes"
+    	);
+    	$data = (object)$data;
+
+    	$submission = $this->get_user_submission($USER->id, true); //create the submission if needed & its id
+    	$grade = $this->get_user_grade($USER->id, false); // get the grade to check if it is locked
+    	if ($grade && $grade->locked) {
+    		print_error('submissionslocked', 'assign');
+    		return $this->view_assign_status();
+    	}
+
+    	foreach ($this->submissionplugins as $plugin) {
+    		if ($plugin->is_enabled()) {
+    			if (!$plugin->save($submission, $data)) {
+    				print_error($plugin->get_error());
+    			}
+    		}
+    	}
+
+    	$this->update_submission($submission);
+
+    	// Logging
+    	$this->add_to_log('submit', $this->format_submission_for_log($submission));
+
+    	if (!$this->get_instance()->submissiondrafts) {
+    		$this->notify_student_submission_receipt($submission);
+    		$this->notify_graders($submission);
+    	}
+    }
 }
 
 /**
