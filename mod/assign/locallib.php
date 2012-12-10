@@ -2751,7 +2751,6 @@ class assign {
      */
     private function view_submission_page() {
         global $CFG, $DB, $USER, $PAGE;
-        $sub = $this->get_submission(1);
 
         $o = '';
         $o .= $this->get_renderer()->render(new assign_header($this->get_instance(),
