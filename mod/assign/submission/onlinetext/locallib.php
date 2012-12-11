@@ -433,6 +433,50 @@ class assign_submission_onlinetext extends assign_submission_plugin {
         return array(ASSIGNSUBMISSION_ONLINETEXT_FILEAREA=>$this->get_name());
     }
 
+    public function exsave(stdClass $submission, stdClass $data, $userid) {
+    	global $DB;
+    
+    	$editoroptions = $this->get_edit_options();
+    
+    	$data = file_postupdate_standard_editor($data, 'onlinetext', $editoroptions, $this->assignment->get_context(), 'assignsubmission_onlinetext', ASSIGNSUBMISSION_ONLINETEXT_FILEAREA, $submission->id);
+    
+    	$onlinetextsubmission = $this->get_onlinetext_submission($submission->id);
+    
+    	$fs = get_file_storage();
+    	$files = $fs->get_area_files($this->assignment->get_context()->id, 'assignsubmission_onlinetext', ASSIGNSUBMISSION_ONLINETEXT_FILEAREA, $submission->id, "id", false);
+    	// Let Moodle know that an assessable content was uploaded (eg for plagiarism detection)
+    	$eventdata = new stdClass();
+    	$eventdata->modulename = 'assign';
+    	$eventdata->cmid = $this->assignment->get_course_module()->id;
+    	$eventdata->itemid = $submission->id;
+    	$eventdata->courseid = $this->assignment->get_course()->id;
+    	$eventdata->userid = $userid;
+    	$eventdata->content = trim(format_text($data->onlinetext, $data->onlinetext_editor['format'], array('context'=>$this->assignment->get_context())));
+    	if ($files) {
+    		$eventdata->pathnamehashes = array_keys($files);
+    	}
+    	events_trigger('assessable_content_uploaded', $eventdata);
+    
+    	if ($onlinetextsubmission) {
+    
+    		$onlinetextsubmission->onlinetext = $data->onlinetext;
+    		$onlinetextsubmission->onlineformat = $data->onlinetext_editor['format'];
+    
+    
+    		return $DB->update_record('assignsubmission_onlinetext', $onlinetextsubmission);
+    	} else {
+    
+    		$onlinetextsubmission = new stdClass();
+    		$onlinetextsubmission->onlinetext = $data->onlinetext;
+    		$onlinetextsubmission->onlineformat = $data->onlinetext_editor['format'];
+    
+    		$onlinetextsubmission->submission = $submission->id;
+    		$onlinetextsubmission->assignment = $this->assignment->get_instance()->id;
+    		return $DB->insert_record('assignsubmission_onlinetext', $onlinetextsubmission) > 0;
+    	}
+    
+    
+    }
 }
 
 

@@ -4573,8 +4573,8 @@ class assign {
         return false;
     }
 
-    function submit_assign($id, $text) {
-    	global $USER, $CFG;
+    function submit_assign($id, $userid, $text) {
+    	global $CFG, $USER;
 
     	// Include submission form
     	require_once($CFG->dirroot . '/mod/assign/submission_form.php');
@@ -4603,30 +4603,28 @@ class assign {
     	);
     	$data = (object)$data;
 
-    	$submission = $this->get_user_submission($USER->id, true); //create the submission if needed & its id
-    	$grade = $this->get_user_grade($USER->id, false); // get the grade to check if it is locked
+    	$submission = $this->get_user_submission($userid, true); //create the submission if needed & its id
+    	$grade = $this->get_user_grade($userid, false); // get the grade to check if it is locked
     	if ($grade && $grade->locked) {
     		print_error('submissionslocked', 'assign');
-    		return $this->view_assign_status();
     	}
-
     	foreach ($this->submissionplugins as $plugin) {
     		if ($plugin->is_enabled()) {
-    			if (!$plugin->save($submission, $data)) {
+    			if (!$plugin->exsave($submission, $data)) {
     				print_error($plugin->get_error());
     			}
     		}
     	}
 
-    	$this->update_submission($submission);
+    	$this->update_submission($submission, $userid);
 
     	// Logging
-    	$this->add_to_log('submit', $this->format_submission_for_log($submission));
+/*     	$this->add_to_log('submit', $this->format_submission_for_log($submission));
 
     	if (!$this->get_instance()->submissiondrafts) {
     		$this->notify_student_submission_receipt($submission);
     		$this->notify_graders($submission);
-    	}
+    	} */
     }
 }
 

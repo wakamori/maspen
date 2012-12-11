@@ -23,19 +23,20 @@ class local_exfunctions_external extends external_api {
 				array(
 						'name' => new external_value(PARAM_TEXT, 'assign name', VALUE_DEFAULT, ""),
 						'id'   => new external_value(PARAM_INT, 'id', VALUE_DEFAULT, 0),
+						'userid' => new external_value(PARAM_INT, 'userid'),
 				)
 		);
 	}
 
-	public static function view_assignment($name="", $id=0) {
-		global $CFG, $USER,$DB;
+	public static function view_assignment($name="", $id=0, $userid=0) {
+		global $CFG, $USER, $DB;
 
  		require_once("$CFG->dirroot/config.php");
 		require_once("$CFG->dirroot/mod/assign/locallib.php");
 		require_once("$CFG->libdir/datalib.php");
 		require_once("$CFG->libdir/dml/moodle_database.php");
 
-	    self::validate_parameters(self::view_assignment_parameters(), array('name'=>$name, 'id'=>$id));
+	    //self::validate_parameters(self::view_assignment_parameters(), array('name'=>$name, 'id'=>$, 'userid'=>$userid));
 
  		if($name!="" && $id==0){
 			$id = self::get_course_module_id_from_assign_name($name);
@@ -62,7 +63,7 @@ class local_exfunctions_external extends external_api {
 		$completion->set_module_viewed($cm);
 		
 		$instance = $assign->get_instance();
- 		$data = $DB->get_record('assign_submission', array('assignment'=>$instance->id, 'userid'=>$USER->id), '*', MUST_EXIST);
+ 		$data = $DB->get_record('assign_submission', array('assignment'=>$instance->id, 'userid'=>$userid), '*', MUST_EXIST);
 		$text = $DB->get_record('assignsubmission_onlinetext', array('assignment'=>$instance->id, 'submission'=>$data->id), 'onlinetext', MUST_EXIST);
 		
 		$list = array();
@@ -113,15 +114,16 @@ class local_exfunctions_external extends external_api {
 	public static function submit_assignment_parameters() {
 		return new external_function_parameters(
 				array(
-						'name' => new external_value(PARAM_RAW, 'assign name', VALUE_DEFAULT, ""),
-						'id'   => new external_value(PARAM_INT, 'id', VALUE_DEFAULT, 0),
-						'text' => new external_value(PARAM_RAW, 'text')
+						'name'   => new external_value(PARAM_RAW, 'assign name', VALUE_DEFAULT, ""),
+						'id'     => new external_value(PARAM_INT, 'id', VALUE_DEFAULT, 0),
+						'userid' => new external_value(PARAM_INT, 'userid'),
+						'text'   => new external_value(PARAM_RAW, 'text')
 				)
 		);
 	}
 
-	public static function submit_assignment($name="", $id=0, $text) {
-		global $CFG, $DB, $PAGE;
+	public static function submit_assignment($name="", $id=0, $userid, $text) {
+		global $CFG, $DB;
 		/** config.php */
 		require_once("$CFG->dirroot/config.php");
 		/** Include library */
@@ -160,8 +162,8 @@ class local_exfunctions_external extends external_api {
 		$completion->set_module_viewed($cm);
 		
 		// Get the assign to render the page
-		$assign->submit_assign($id, $text);
-		return self::view_assignment('', $id);
+		$assign->submit_assign($id, $userid, $text);
+		return self::view_assignment('', $id, $userid);
 	}
 
 	public static function submit_assignment_returns() {
