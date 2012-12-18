@@ -126,7 +126,7 @@ if ( $launchcontainer == LTI_LAUNCH_CONTAINER_WINDOW ) {
         //<![CDATA[
             YUI().use("yui2-dom", function(Y) {
                 //Take scrollbars off the outer document to prevent double scroll bar effect
-                document.body.style.overflow = "hidden";
+                document.body.style.overflow = "visible";
 
                 var dom = Y.YUI2.util.Dom;
                 var frame = document.getElementById("contentframe");
@@ -140,7 +140,7 @@ if ( $launchcontainer == LTI_LAUNCH_CONTAINER_WINDOW ) {
 
                     if(lastHeight !== Math.min(dom.getDocumentHeight(), viewportHeight)){
 
-                        frame.style.height = viewportHeight - dom.getY(frame) - padding + "px";
+                        frame.style.height = window.screen.height + "px";
 
                         lastHeight = Math.min(dom.getDocumentHeight(), dom.getViewportHeight());
                     }
