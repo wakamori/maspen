@@ -1,13 +1,13 @@
 <?php
-//$token = '08785ff27bbf462a64cca1fee185255f';
-//$domainname = 'http://localhost/moodle';
-$token = '863941fa304ba6566e5c392515286aa3';
-$domainname = 'http://konoha.ubicg.ynu.ac.jp/maspen';
+$token = '08785ff27bbf462a64cca1fee185255f';
+$domainname = 'http://localhost/moodle';
+//$token = '863941fa304ba6566e5c392515286aa3';
+//$domainname = 'http://konoha.ubicg.ynu.ac.jp/maspen';
 $functionname = 'local_exfunctions_view_assignment';
 
 $restformat = 'json';
 
-$params = array('id'=> '3', 'userid' => '3');
+$params = array('id'=> '2', 'userid' => '3');
 
 $serverurl = $domainname . '/webservice/rest/server.php'. '?wstoken=' . $token . '&wsfunction='.$functionname;
 
