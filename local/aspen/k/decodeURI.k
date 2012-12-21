@@ -11,7 +11,7 @@
 import("cstyle", "while");
 import("konoha.bytes");
 import("konoha.regexp");
-import("konoha.string");
+import("js4.string");
 
 int power(int base, int num) {
 	int i = 0;
@@ -27,8 +27,8 @@ int strHexToDec(String hex) {
 	int ret = 0;
 	String tmp = hex.replace(/0x/, "");
 	int i = 0;
-	int size = tmp.getSize();
-	while(i < tmp.getSize()) {
+	int size = tmp.getlength();
+	while(i < tmp.getlength()) {
 		size = size - 1;
 		String c = tmp.get(i);
 		if (c.search(/[a-f]|[A-F]|[0-9]/) < 0) {
@@ -88,7 +88,7 @@ String Bytes.toString() {
 	Bytes buf = this;
 	int i = 0;
 	String ret = "";
-	while(i < buf.getSize()) {
+	while(i < buf.getlength()) {
 		int c = buf.get(i);
 		//System.p(buf.get(i));
 		ret = ret + String.fromCharCode(buf.get(i));
@@ -102,8 +102,8 @@ String Bytes.toString() {
 	String str = this;
 	int i;
 	int setcnt;
-	int len = str.getSize();
-	Bytes buf = new Bytes(str.getSize());
+	int len = str.getlength();
+	Bytes buf = new Bytes(str.getlength());
 	int decoded = 0;
 	int decode_flag = 0;
 	boolean lf_flag = false;
