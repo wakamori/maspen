@@ -4,7 +4,7 @@ import("cstyle", "while");
 import("dscript.subproc");
 import("konoha.array");
 import("konoha.file");
-import("konoha.string");
+import("js4.string");
 import("posix.path");
 import("posix.process");
 

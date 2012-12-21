@@ -10,14 +10,14 @@ import("konoha.class");
 import("konoha.const");
 import("konoha.file");
 import("konoha.foreach");
-import("konoha.string");
+import("js4.string");
 
 const BASE_PATH="/var/www/html/maspen/local/aspen/static";
 
 int Array_indexOf(Array[String] sa, String val) {
 	int ret = -1;
 	int i = 0;
-	while(i < sa.getSize()) {
+	while(i < sa.getlength()) {
 		if(sa[i] == val) {
 			return i;
 		}
@@ -54,7 +54,7 @@ class Template {
 	String applyParams(String str) {
 		String ret = str;
 		int i = 0;
-		while(i < paramkeys.getSize()) {
+		while(i < paramkeys.getlength()) {
 			ret = ret.replace("%" + paramkeys[i] + "%", params[i]);
 			i = i + 1;
 		}

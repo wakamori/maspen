@@ -1,6 +1,6 @@
 import("apache");
 import("cstyle");
-import("konoha.string");
+import("js4.string");
 import("konoha.array");
 import("konoha.class");
 
