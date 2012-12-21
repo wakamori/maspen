@@ -88,7 +88,7 @@ String Bytes.toString() {
 	Bytes buf = this;
 	int i = 0;
 	String ret = "";
-	while(i < buf.getlength()) {
+	while(i < buf.getSize()) {
 		int c = buf.get(i);
 		//System.p(buf.get(i));
 		ret = ret + String.fromCharCode(buf.get(i));
