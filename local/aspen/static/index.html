@@ -76,6 +76,31 @@
 			<div class="row-fluid">
 				<div class="span12">
 					<p>URL: %URL%</p>
+
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">課題情報</h3>
+  </div>
+  <div class="modal-body">
+    <table border=4 width=400 align=center>
+       <tr align=center>
+         <td>提出ステータス</td>
+         <td id="status"></td>
+       </tr>
+       <tr align=center>
+         <td>締切日</td>
+         <td id="duedate"></td>
+       </tr>
+       <tr align=center>
+	 <td>最終更新日時</td>
+         <td id="timemodified"></td>
+       </tr>
+    </table>
+  </div>
+</div>
+
 					<p><button id="button-run" class="btn btn-primary"><i class="icon-play icon-white"></i> Run</button>
 					<button id="button-submit" class="btn btn-success"><i class="icon-share icon-white"></i> Submit</button>
 					<button id="button-status" class="btn"><i class="icon-user"></i> Status</button></p>
