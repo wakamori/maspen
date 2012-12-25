@@ -64,7 +64,7 @@ class local_exfunctions_external extends external_api {
 		
 		$instance = $assign->get_instance();
  		$data = $DB->get_record('assign_submission', array('assignment'=>$instance->id, 'userid'=>$userid), '*', MUST_EXIST);
-		$text = $DB->get_record('assignsubmission_onlinetext', array('assignment'=>$instance->id, 'submission'=>$data->id), 'onlinetext', MUST_EXIST);
+		$text = $DB->get_record('assignsubmission_onlinetext', array('assignment'=>$instance->id, 'submission'=>$data->id), 'onlinetext', IGNORE_MULTIPLE);
 		
 		$list = array();
 		$list['name']         = $instance->name;

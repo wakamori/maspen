@@ -32,7 +32,7 @@ $(function() {
 			url: ROOTURL + "webservice/rest/server.php",
 			dataType: "text",
 			data: {
-				wstoken: "863941fa304ba6566e5c392515286aa3",
+				wstoken: "1d6440b99800118436b01942f0e3d76e",
 				wsfunction: "local_exfunctions_submit_assignment",
 				moodlewsrestformat: "json",
 				id: ID,
@@ -52,7 +52,7 @@ $(function() {
 			url: ROOTURL + "webservice/rest/server.php",
 			dataType: "text",
 			data: {
-				wstoken: "863941fa304ba6566e5c392515286aa3",
+				wstoken: "1d6440b99800118436b01942f0e3d76e",
 				wsfunction: "local_exfunctions_view_assignment",
 				moodlewsrestformat: "json",
 				id: ID,
