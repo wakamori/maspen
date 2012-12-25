@@ -40,7 +40,12 @@ $(function() {
 				text: myCodeMirror.getValue()
 			},
 			success: function(res) {
-				$("#result").text(res);
+				var obj = JSON.parse(res);
+				$("#status").text(obj.status);
+				$("#duedate").text(parse_time(obj.duedate));
+				$("#timemodified").text(parse_time(obj.timemodified));
+				$("#text").text(obj.text);
+				$("#myModal").modal("show");
 				prettyPrint();
 			}
 		});
@@ -63,6 +68,7 @@ $(function() {
 				$("#status").text(obj.status);
 				$("#duedate").text(parse_time(obj.duedate));
 				$("#timemodified").text(parse_time(obj.timemodified));
+				$("#text").text(obj.text);
 				$("#myModal").modal("show");
 				prettyPrint();
 			}

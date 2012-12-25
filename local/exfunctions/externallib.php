@@ -85,22 +85,22 @@ class local_exfunctions_external extends external_api {
 						'duedate' => new external_single_structure(
 							array(
 								'year'  => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'month' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'day'   => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'hours' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'minutes' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'seconds' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
+								'month' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'day'   => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'hours' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'minutes' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'seconds' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
 								'weekday' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
 							)
 						),
 						'timemodified' => new external_single_structure(
 							array(
 								'year'  => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'month' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'day'   => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'hours' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'minutes' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'seconds' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
+								'month' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'day'   => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'hours' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'minutes' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'seconds' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
 								'weekday' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
 							)
 						),
@@ -175,25 +175,25 @@ class local_exfunctions_external extends external_api {
 						'duedate' => new external_single_structure(
 							array(
 								'year'  => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'month' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'day'   => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'hours' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'minutes' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'seconds' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
+								'month' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'day'   => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'hours' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'minutes' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'seconds' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
 								'weekday' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
 							)
 						),
 						'timemodified' => new external_single_structure(
 							array(
 								'year'  => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'month' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'day'   => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'hours' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'minutes' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'seconds' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
+								'month' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'day'   => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'hours' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'minutes' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
+								'seconds' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
 								'weekday' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
 							)
-						),
+						),	
 						'text'    => new external_value(PARAM_RAW, '', VALUE_OPTIONAL)
 				)
 		);
@@ -217,12 +217,13 @@ class local_exfunctions_external extends external_api {
 		$list = array();
 		$time = getdate($timestamp);
 		$list['year']  = $time['year'];
-		$list['month'] = $time['mon'];
-		$list['day']   = $time['mday'];
-		$list['hours'] = $time['hours'];
-		$list['minutes'] = $time['minutes'];
-		$list['seconds'] = $time['seconds'];
+		$list['month'] = sprintf('%02d', $time['mon']);
+		$list['day']   = sprintf('%02d', $time['mday']);
+		$list['hours'] = sprintf('%02d', $time['hours']);
+		$list['minutes'] = sprintf('%02d', $time['minutes']);
+		$list['seconds'] = sprintf('%02d', $time['seconds']);
 		$list['weekday'] = $time['wday'];
+
 		return $list;
 	}
 }

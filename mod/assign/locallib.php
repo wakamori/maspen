@@ -1694,13 +1694,14 @@ class assign {
                                                               $this->show_intro(),
                                                               $this->get_course_module()->id,
                                                               $plugin->get_name()));
+	    $o .= "<pre>";
             $o .= $this->get_renderer()->render(new assign_submission_plugin_submission($plugin,
                                                               $item,
                                                               assign_submission_plugin_submission::FULL,
                                                               $this->get_course_module()->id,
                                                               $this->get_return_action(),
                                                               $this->get_return_params()));
-
+	    $o .= "</pre>";
             $this->add_to_log('view submission', get_string('viewsubmissionforuser', 'assign', $item->userid));
         } else {
             $plugin = $this->get_feedback_plugin_by_type($plugintype);
