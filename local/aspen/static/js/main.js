@@ -40,7 +40,12 @@ $(function() {
 				text: myCodeMirror.getValue()
 			},
 			success: function(res) {
-				$("#result").text(res);
+				var obj = JSON.parse(res);
+				$("#status").text(obj.status);
+				$("#duedate").text(parse_time(obj.duedate));
+				$("#timemodified").text(parse_time(obj.timemodified));
+				$("#text").text(obj.text);
+				$("#myModal").modal("show");
 				prettyPrint();
 			}
 		});
@@ -59,9 +64,25 @@ $(function() {
 				userid: USERID
 			},
 			success: function(res) {
-				$("#result").text(res);
+				var obj = JSON.parse(res);
+				$("#status").text(obj.status);
+				$("#duedate").text(parse_time(obj.duedate));
+				$("#timemodified").text(parse_time(obj.timemodified));
+				$("#text").text(obj.text);
+				$("#myModal").modal("show");
 				prettyPrint();
 			}
 		});
 	});
+
+	function parse_time(ary) {
+		var time = "";
+		time += ary.year  + "年";
+		time += ary.month + "月";
+		time += ary.day   + "日";
+		time += ary.hours + "時";
+		time += ary.minutes + "分";
+		time += ary.seconds + "秒";
+		return time;
+	}
 });
