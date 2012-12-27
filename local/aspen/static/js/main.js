@@ -78,7 +78,7 @@ $(function() {
 	$("#button-ranking").click(function() {
 /*		$.ajax({
 			type: "GET",
-			url: "get_data.php",
+			url: "get_submission_data.php",
 			dataType: "text",
 			data: {
 				wstoken: "1d6440b99800118436b01942f0e3d76e",
@@ -100,15 +100,15 @@ $(function() {
 		$("#modal-ranking").modal("show");
 	});
 
-	function parse_time(ary) {
-		var time = "";
-		time += ary.year  + "年";
-		time += ary.month + "月";
-		time += ary.day   + "日";
-		time += ary.hours + "時";
-		time += ary.minutes + "分";
-		time += ary.seconds + "秒";
-
-		return time;
+	function parse_time(ts) {
+		var d = new Date( ts * 1000 );
+		var year  = d.getFullYear();
+		var month = d.getMonth() + 1;
+		    month = ( month   < 10 ) ? '0' + month   : month;
+		var day  = ( d.getDate()   < 10 ) ? '0' + d.getDate()   : d.getHours();
+		var hour = ( d.getHours()   < 10 ) ? '0' + d.getHours()   : d.getHours();
+		var min  = ( d.getMinutes() < 10 ) ? '0' + d.getMinutes() : d.getMinutes();
+		var sec   = ( d.getSeconds() < 10 ) ? '0' + d.getSeconds() : d.getSeconds();
+		return year + '年' + month + '月' + day + '日 ' + hour + '時' + min + '分' + sec + '秒';
 	}
 });

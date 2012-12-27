@@ -20,7 +20,8 @@ void main() {
 	tmp.flush();
 	tmp.close();
 	sp = new SubProc("/usr/local/bin/minikonoha");
-	sp.setArgumentList(["-MJavaScript", "-c", filename]);
+	//sp.setArgumentList(["-MJavaScript", "-c", filename]);
+	sp.setArgumentList(["-MJavaScript", filename]);
 	sp.bg();
 	stdout.println("Content-Type: text/plain; charset=utf-8\n");
 	stdout.println(sp.communicate("")[0]);

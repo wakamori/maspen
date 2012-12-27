@@ -70,40 +70,20 @@ class local_exfunctions_external extends external_api {
 		$list['name']         = $instance->name;
 		$list['intro']        = $instance->intro;
 		$list['status']       = $data->status;
-		$list['duedate']      = self::decode_timestamp($instance->duedate);
-		$list['timemodified'] = self::decode_timestamp($instance->timemodified);
+		$list['duedate']      = $instance->duedate;
+		$list['timemodified'] = $instance->timemodified;
 		$list['text']         = $text->onlinetext;
 		return $list;
 	}
 
 	public static function view_assignment_returns() {
-		return new external_single_structure(
+			return new external_single_structure(
 				array(
 						'name'    => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
 						'intro'   => new external_value(PARAM_RAW, '', VALUE_OPTIONAL),
 						'status'  => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-						'duedate' => new external_single_structure(
-							array(
-								'year'  => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'month' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'day'   => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'hours' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'minutes' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'seconds' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'weekday' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-							)
-						),
-						'timemodified' => new external_single_structure(
-							array(
-								'year'  => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'month' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'day'   => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'hours' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'minutes' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'seconds' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'weekday' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-							)
-						),
+						'duedate' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
+						'timemodified' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),	
 						'text'    => new external_value(PARAM_RAW, '', VALUE_OPTIONAL)
 				)
 		);
@@ -172,28 +152,8 @@ class local_exfunctions_external extends external_api {
 						'name'    => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
 						'intro'   => new external_value(PARAM_RAW, '', VALUE_OPTIONAL),
 						'status'  => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-						'duedate' => new external_single_structure(
-							array(
-								'year'  => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'month' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'day'   => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'hours' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'minutes' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'seconds' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'weekday' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-							)
-						),
-						'timemodified' => new external_single_structure(
-							array(
-								'year'  => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-								'month' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'day'   => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'hours' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'minutes' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'seconds' => new external_value(PARAM_TEXT, '', VALUE_OPTIONAL),
-								'weekday' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
-							)
-						),	
+						'duedate' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),
+						'timemodified' => new external_value(PARAM_INT, '', VALUE_OPTIONAL),	
 						'text'    => new external_value(PARAM_RAW, '', VALUE_OPTIONAL)
 				)
 		);
@@ -227,3 +187,4 @@ class local_exfunctions_external extends external_api {
 		return $list;
 	}
 }
+
