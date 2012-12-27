@@ -1,30 +1,29 @@
-import("apache");
-import("cstyle", "null");
-import("cstyle", "while");
+#!/usr/local/bin/minikonoha
+
 import("dscript.subproc");
-import("konoha.array");
-import("konoha.file");
+import("js4.array");
 import("js4.string");
+import("konoha.file");
 import("posix.path");
 import("posix.process");
 
 load("./decodeURI.k");
 
-@Public int System.handler(Request req) {
-	req.setContentType("text/plain");
-	req.setContentEncoding("utf-8");
-	SubProc sp = new SubProc("mktemp");
+void main() {
+	SubProc sp = new SubProc("/bin/mktemp");
 	sp.setArgumentList(["-q", "/tmp/js.XXXXXX"]);
 	sp.bg();
 	String filename = sp.communicate("")[0].trim();
 	FILE tmp = new FILE(filename, "w");
-	String input = req.getArgs().trim().decodeURI();
+	String input = System.getenv("QUERY_STRING").trim().decodeURI();
 	tmp.print(input);
+	tmp.flush();
 	tmp.close();
 	sp = new SubProc("/usr/local/bin/minikonoha");
 	sp.setArgumentList(["-MJavaScript", "-c", filename]);
 	sp.bg();
-	req.puts(sp.communicate("")[0].trim());
-	System.unlink(filename);
-	return OK;
+	stdout.println("Content-Type: text/plain; charset=utf-8\n");
+	stdout.println(sp.communicate("")[0]);
 }
+
+main();

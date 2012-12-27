@@ -9,9 +9,10 @@
  */
 
 import("cstyle", "while");
+import("cstyle", "break");
 import("konoha.bytes");
-import("konoha.regexp");
-import("js4.string");
+import("js4.regexp");
+//import("js4.string");
 
 int power(int base, int num) {
 	int i = 0;

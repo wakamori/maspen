@@ -14,11 +14,11 @@ $(function() {
 			$("#result").text() == String.fromCharCode(160)) {
 			$.ajax({
 				type: "GET",
-				url: PATH + "k/k2js.k",
+				url: PATH + "k/k2js.cgi",
 				dataType: "text",
 				data: myCodeMirror.getValue(),
 				success: function(res) {
-					$("#result").text(res);
+					$("#console").text(res);
 					prettyPrint();
 				}
 			});
@@ -45,7 +45,7 @@ $(function() {
 				$("#duedate").text(parse_time(obj.duedate));
 				$("#timemodified").text(parse_time(obj.timemodified));
 				$("#text").text(obj.text);
-				$("#myModal").modal("show");
+				$("#modal-status").modal("show");
 				prettyPrint();
 			}
 		});
@@ -69,10 +69,35 @@ $(function() {
 				$("#duedate").text(parse_time(obj.duedate));
 				$("#timemodified").text(parse_time(obj.timemodified));
 				$("#text").text(obj.text);
-				$("#myModal").modal("show");
+				$("#modal-status").modal("show");
 				prettyPrint();
 			}
 		});
+	});
+
+	$("#button-ranking").click(function() {
+/*		$.ajax({
+			type: "GET",
+			url: "get_data.php",
+			dataType: "text",
+			data: {
+				wstoken: "1d6440b99800118436b01942f0e3d76e",
+				wsfunction: "local_exfunctions_view_assignment",
+				moodlewsrestformat: "json",
+				id: ID,
+				userid: USERID
+			},
+			success: function(res) {
+				var obj = JSON.parse(res);
+				$("#status").text(obj.status);
+				$("#duedate").text(parse_time(obj.duedate));
+				$("#timemodified").text(parse_time(obj.timemodified));
+				$("#text").text(obj.text);
+				$("#modal-status").modal("show");
+				prettyPrint();
+			}
+		});*/
+		$("#modal-ranking").modal("show");
 	});
 
 	function parse_time(ary) {
@@ -83,6 +108,7 @@ $(function() {
 		time += ary.hours + "時";
 		time += ary.minutes + "分";
 		time += ary.seconds + "秒";
+
 		return time;
 	}
 });

@@ -1,8 +1,8 @@
 import("apache");
 import("cstyle");
 import("js4.string");
-import("konoha.array");
-import("konoha.class");
+import("js4.array");
+import("java2.class");
 
 load("./decodeURI.k");
 

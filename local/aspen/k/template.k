@@ -5,8 +5,8 @@
 import("apache");
 import("cstyle", "null");
 import("cstyle", "while");
-import("konoha.array");
-import("konoha.class");
+import("js4.array");
+import("java2.class");
 import("konoha.const");
 import("konoha.file");
 import("konoha.foreach");
