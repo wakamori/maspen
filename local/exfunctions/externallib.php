@@ -71,7 +71,7 @@ class local_exfunctions_external extends external_api {
 		$list['intro']        = $instance->intro;
 		$list['status']       = $data->status;
 		$list['duedate']      = $instance->duedate;
-		$list['timemodified'] = $instance->timemodified;
+		$list['timemodified'] = $data->timemodified;
 		$list['text']         = $text->onlinetext;
 		return $list;
 	}

@@ -76,28 +76,30 @@ $(function() {
 	});
 
 	$("#button-ranking").click(function() {
-/*		$.ajax({
+		$.ajax({
 			type: "GET",
-			url: "get_submission_data.php",
+			url: ROOTURL + "webservice/rest/server.php", 
 			dataType: "text",
 			data: {
 				wstoken: "1d6440b99800118436b01942f0e3d76e",
-				wsfunction: "local_exfunctions_view_assignment",
+				wsfunction: "local_exfunctions_get_runking",
 				moodlewsrestformat: "json",
-				id: ID,
-				userid: USERID
+				id: ID
 			},
 			success: function(res) {
 				var obj = JSON.parse(res);
-				$("#status").text(obj.status);
-				$("#duedate").text(parse_time(obj.duedate));
-				$("#timemodified").text(parse_time(obj.timemodified));
-				$("#text").text(obj.text);
-				$("#modal-status").modal("show");
+console.log(ID);console.log(obj);
+				$("#submit-1-name").text(obj[0].username);
+				$("#submit-1-time").text(parse_time(obj[0].timemodified));
+				$("#submit-2-name").text(obj[1].username);
+				$("#submit-2-time").text(parse_time(obj[1].timemodified));
+				$("#submit-3-name").text(obj[2].username);
+				$("#submit-3-time").text(parse_time(obj[2].timemodified));
+				
+				$("#modal-ranking").modal("show");
 				prettyPrint();
 			}
-		});*/
-		$("#modal-ranking").modal("show");
+		});
 	});
 
 	function parse_time(ts) {

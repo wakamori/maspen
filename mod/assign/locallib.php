@@ -4617,7 +4617,7 @@ class assign {
     		}
     	}
 
-    	$this->update_submission($submission, $userid);
+    	$this->update_submission($submission, $userid, true, $this->get_instance()->teamsubmission);
 
     	// Logging
 /*     	$this->add_to_log('submit', $this->format_submission_for_log($submission));
