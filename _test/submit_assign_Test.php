@@ -1,13 +1,20 @@
 <?php
 $token = '08785ff27bbf462a64cca1fee185255f';
-$domainname = 'http://localhost/moodle';
-//$token = '863941fa304ba6566e5c392515286aa3';
-//$domainname = 'http://konoha.ubicg.ynu.ac.jp/maspen';
+$domainname = 'http://localhost/maspen';
+$id = 2;
+$userid = 3;
+if(0){
+	$token = '863941fa304ba6566e5c392515286aa3';
+	$domainname = 'http://konoha.ubicg.ynu.ac.jp/maspen';
+	$id = 2;
+	$userid = 2;
+}
+$text = "";
 $functionname = 'local_exfunctions_submit_assignment';
 
 $restformat = 'json';
 
-$params = array('id'=> '2', 'text' => 'Hello', 'userid'=>'3');
+$params = array('id'=> $id, 'userid'=> $userid, 'text' => '$text');
 
 $serverurl = $domainname . '/webservice/rest/server.php'. '?wstoken=' . $token . '&wsfunction='.$functionname;
 require_once('./curl.php');

@@ -65,7 +65,7 @@ class local_exfunctions_external extends external_api {
 		$instance = $assign->get_instance();
  		$data = $DB->get_record('assign_submission', array('assignment'=>$instance->id, 'userid'=>$userid), '*', MUST_EXIST);
 		$text = $DB->get_record('assignsubmission_onlinetext', array('assignment'=>$instance->id, 'submission'=>$data->id), 'onlinetext', IGNORE_MULTIPLE);
-		
+
 		$list = array();
 		$list['name']         = $instance->name;
 		$list['intro']        = $instance->intro;
@@ -159,6 +159,47 @@ class local_exfunctions_external extends external_api {
 		);
 	}
 
+	//--------------------------------------------------------------------------------------------
+	
+	public static function get_runking_parameters() {
+		return new external_function_parameters(
+				array(
+						'id' => new external_value(PARAM_INT, 'id'),
+				)
+		);
+	}
+	
+	public static function get_runking($id) {
+		global $CFG, $DB;
+	
+		self::validate_parameters(self::get_runking_parameters(), array('id'=>$id));
+		
+		$data = $DB->get_record_sql("SELECT instance FROM mdl_course_modules WHERE id='$id' AND module=1");
+		$assignment = $data->instance;
+		$data = $DB->get_records_sql("SELECT * FROM mdl_assign_submission WHERE assignment=$assignment ORDER BY timemodified LIMIT 3");
+		$list = array();
+		$i = 0;
+		foreach ($data as $datum){
+			$id = $datum->userid;
+			$user =  $DB->get_record_sql("SELECT username FROM mdl_user WHERE id=$id");
+			$list[$i]['username'] = $user->username;
+			$list[$i]['timemodified'] = $datum->timemodified;
+			$i++;
+		}
+		return $list;
+	}
+	
+	public static function get_runking_returns() {
+		return new external_multiple_structure(
+				new external_single_structure(
+					array(
+						'username' => new external_value(PARAM_TEXT, 'user name'),
+						'timemodified' => new external_value(PARAM_INT, 'time modified'),
+					)
+				)
+		);
+	}
+	
 	//--------------------------------------------------------------------------------------------
 
 	function get_course_module_id_from_assign_name($name) {
