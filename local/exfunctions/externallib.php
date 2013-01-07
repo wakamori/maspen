@@ -201,6 +201,38 @@ class local_exfunctions_external extends external_api {
 	}
 	
 	//--------------------------------------------------------------------------------------------
+	
+	public static function set_run_status_parameters() {
+		return new external_function_parameters(
+				array(
+						'user'  => new external_value(PARAM_INT, 'id'),
+						'module'   => new external_value(PARAM_INT, 'id'),
+						'code'  => new external_value(PARAM_INT, 'id'),
+						'error' => new external_value(PARAM_INT, 'id'),
+				)
+		);
+	}
+	
+	public static function set_run_status($user, $module, $code, $error) {
+		global $CFG, $DB;
+		
+		self::validate_parameters(self::set_run_status_parameters(), array('user'=>$user, 'module'=>$module, 'code'=>$code, 'error'=>$error));
+		
+		$time = time();
+		$DB->execute("INSERT INTO `mdl_aspen` (`id`, `user`, `module`, `time`, `code`, `error`) VALUES (NULL, '$user', '$module', '$time', '$code', '$error')");
+		$obj = $DB->get_record_sql("SELECT id FROM `mdl_aspen_head` WHERE user='$user' AND module='$module'");
+		if($obj == NULL){
+			$DB->execute("INSERT INTO `mdl_aspen_head` (`id`, `user`, `module`, `time`, `code`, `error`) VALUES (NULL, '$user', '$module', '$time', '$code', '$error')");
+		}
+		else{
+			$DB->execute("UPDATE `mdl_aspen_head` SET `time`='$time',`code`='$code',`error`='$error' WHERE `user`=$user AND `module`=$module");
+		}
+	}
+	
+	public static function set_run_status_returns() {
+	}
+	
+	//--------------------------------------------------------------------------------------------
 
 	function get_course_module_id_from_assign_name($name) {
 		global $CFG, $DB;
