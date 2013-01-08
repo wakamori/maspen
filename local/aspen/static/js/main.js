@@ -23,6 +23,24 @@ $(function() {
 				}
 			});
 			sessionStorage.setItem("previousValue", myCodeMirror.getValue());
+			
+			$.ajax({
+				type: "GET",
+				url: ROOTURL + "webservice/rest/server.php",
+				dataType: "text",
+				data: {
+					wstoken: "1d6440b99800118436b01942f0e3d76e",
+					wsfunction: "local_exfunctions_set_run_status",
+					moodlewsrestformat: "json",
+					user: USERID,
+					module: ID,
+					code: 10 + Math.floor( Math.random() * 60 ),
+					error: Math.floor( Math.random() * 10 ),
+					text: myCodeMirror.getValue() 
+				},
+				success: function(res) {
+				}
+			});
 		}
 	});
 
@@ -82,13 +100,42 @@ $(function() {
 			dataType: "text",
 			data: {
 				wstoken: "1d6440b99800118436b01942f0e3d76e",
-				wsfunction: "local_exfunctions_get_runking",
+				wsfunction: "local_exfunctions_get_run_runking",
 				moodlewsrestformat: "json",
 				id: ID
 			},
 			success: function(res) {
 				var obj = JSON.parse(res);
-console.log(ID);console.log(obj);
+				$("#run-1-name").text(obj[0].user);
+				$("#run-1-code").text(obj[0].code);
+				$("#run-1-error").text(obj[0].error);
+				$("#run-1-score").text(obj[0].score);
+				$("#run-2-name").text(obj[1].user);
+				$("#run-2-code").text(obj[1].code);
+				$("#run-2-error").text(obj[1].error);
+				$("#run-2-score").text(obj[1].score);
+				$("#run-3-name").text(obj[2].user);
+				$("#run-3-code").text(obj[2].code);
+				$("#run-3-error").text(obj[2].error);
+				$("#run-3-score").text(obj[2].score);
+				
+				$("#modal-ranking").modal("show");
+				prettyPrint();
+			}
+		});
+		
+		$.ajax({
+			type: "GET",
+			url: ROOTURL + "webservice/rest/server.php", 
+			dataType: "text",
+			data: {
+				wstoken: "1d6440b99800118436b01942f0e3d76e",
+				wsfunction: "local_exfunctions_get_submit_runking",
+				moodlewsrestformat: "json",
+				id: ID
+			},
+			success: function(res) {
+				var obj = JSON.parse(res);
 				$("#submit-1-name").text(obj[0].username);
 				$("#submit-1-time").text(parse_time(obj[0].timemodified));
 				$("#submit-2-name").text(obj[1].username);
