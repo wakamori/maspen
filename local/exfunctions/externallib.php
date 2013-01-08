@@ -161,7 +161,7 @@ class local_exfunctions_external extends external_api {
 
 	//--------------------------------------------------------------------------------------------
 	
-	public static function get_runking_parameters() {
+	public static function get_run_runking_parameters() {
 		return new external_function_parameters(
 				array(
 						'id' => new external_value(PARAM_INT, 'id'),
@@ -169,10 +169,55 @@ class local_exfunctions_external extends external_api {
 		);
 	}
 	
-	public static function get_runking($id) {
+	public static function get_run_runking($id) {
 		global $CFG, $DB;
 	
-		self::validate_parameters(self::get_runking_parameters(), array('id'=>$id));
+		self::validate_parameters(self::get_run_runking_parameters(), array('id'=>$id));
+	
+		$data = $DB->get_records_sql("SELECT * FROM mdl_aspen_head WHERE module=$id ORDER BY score DESC LIMIT 3");
+		$list = array();
+		$i = 0;
+		foreach ($data as $datum){
+			$id = $datum->user;
+			$user =  $DB->get_record_sql("SELECT username FROM mdl_user WHERE id=$id");
+			$list[$i]['user']  = $user->username;
+			$list[$i]['time']  = $datum->time;
+			$list[$i]['code']  = $datum->code;
+			$list[$i]['error'] = $datum->error;
+			$list[$i]['score'] = $datum->score;
+			$i++;
+		}
+		return $list;
+	}
+	
+	public static function get_run_runking_returns() {
+		return new external_multiple_structure(
+				new external_single_structure(
+						array(
+								'user'  => new external_value(PARAM_TEXT, 'user'),
+								'time'  => new external_value(PARAM_INT, 'time'),
+								'code'  => new external_value(PARAM_INT, 'code'),
+								'error' => new external_value(PARAM_INT, 'error'),
+								'score' => new external_value(PARAM_INT, 'score'),
+						)
+				)
+		);
+	}
+	
+	//--------------------------------------------------------------------------------------------
+	
+	public static function get_submit_runking_parameters() {
+		return new external_function_parameters(
+				array(
+						'id' => new external_value(PARAM_INT, 'id'),
+				)
+		);
+	}
+	
+	public static function get_submit_runking($id) {
+		global $CFG, $DB;
+	
+		self::validate_parameters(self::get_submit_runking_parameters(), array('id'=>$id));
 		
 		$data = $DB->get_record_sql("SELECT instance FROM mdl_course_modules WHERE id='$id' AND module=1");
 		$assignment = $data->instance;
@@ -189,7 +234,7 @@ class local_exfunctions_external extends external_api {
 		return $list;
 	}
 	
-	public static function get_runking_returns() {
+	public static function get_submit_runking_returns() {
 		return new external_multiple_structure(
 				new external_single_structure(
 					array(
@@ -205,28 +250,50 @@ class local_exfunctions_external extends external_api {
 	public static function set_run_status_parameters() {
 		return new external_function_parameters(
 				array(
-						'user'  => new external_value(PARAM_INT, 'id'),
-						'module'   => new external_value(PARAM_INT, 'id'),
-						'code'  => new external_value(PARAM_INT, 'id'),
-						'error' => new external_value(PARAM_INT, 'id'),
+						'user'   => new external_value(PARAM_INT, 'user'),
+						'module' => new external_value(PARAM_INT, 'module'),
+						'code'   => new external_value(PARAM_INT, 'code'),
+						'error'  => new external_value(PARAM_INT, 'error'),
+						'text'   => new external_value(PARAM_RAW, 'text')
 				)
 		);
 	}
 	
-	public static function set_run_status($user, $module, $code, $error) {
+	public static function set_run_status($user, $module, $code, $error, $text) {
 		global $CFG, $DB;
 		
-		self::validate_parameters(self::set_run_status_parameters(), array('user'=>$user, 'module'=>$module, 'code'=>$code, 'error'=>$error));
+		self::validate_parameters(self::set_run_status_parameters(), array('user'=>$user, 'module'=>$module, 'code'=>$code, 'error'=>$error, 'text'=>$text));
 		
 		$time = time();
-		$DB->execute("INSERT INTO `mdl_aspen` (`id`, `user`, `module`, `time`, `code`, `error`) VALUES (NULL, '$user', '$module', '$time', '$code', '$error')");
+		$score = $code - $error;
+		$DB->execute("INSERT INTO `mdl_aspen` (`id`, `user`, `module`, `time`, `code`, `error`, `score`) VALUES (NULL, '$user', '$module', '$time', '$code', '$error', '$score')");
 		$obj = $DB->get_record_sql("SELECT id FROM `mdl_aspen_head` WHERE user='$user' AND module='$module'");
 		if($obj == NULL){
-			$DB->execute("INSERT INTO `mdl_aspen_head` (`id`, `user`, `module`, `time`, `code`, `error`) VALUES (NULL, '$user', '$module', '$time', '$code', '$error')");
+			$DB->execute("INSERT INTO `mdl_aspen_head` (`id`, `user`, `module`, `time`, `code`, `error`, `score`) VALUES (NULL, '$user', '$module', '$time', '$code', '$error', '$score')");
 		}
 		else{
-			$DB->execute("UPDATE `mdl_aspen_head` SET `time`='$time',`code`='$code',`error`='$error' WHERE `user`=$user AND `module`=$module");
+			$DB->execute("UPDATE `mdl_aspen_head` SET `time`='$time',`code`='$code',`error`='$error', `score`='$score' WHERE `user`=$user AND `module`=$module");
 		}
+		
+		$DB->execute("INSERT INTO `mdl_aspen_text` (`id`, `text`) VALUES ('2', '$text')");
+		
+		/* 	$data = new stdClass();
+		$data->user   = $user;
+		$data->module = $module;
+		$data->time   = time();
+		$data->code   = $code;
+		$data->error  = $error;
+		$data->score  = $code - $error;var_dump($data);
+		$id = $DB->insert_record('aspen', $data);echo "id = $id\n";
+		
+		$obj = $DB->get_record_sql("SELECT id FROM `mdl_aspen_head` WHERE user='$user' AND module='$module'");
+		if($obj == NULL){
+		$DB->insert_record('aspen_head', $data);
+		}
+		else{
+		$data->id = $obj->id;
+		$DB->update_record('aspen_head', $data);
+		} */
 	}
 	
 	public static function set_run_status_returns() {

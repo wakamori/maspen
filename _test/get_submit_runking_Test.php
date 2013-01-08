@@ -7,7 +7,7 @@ if(0){
 	$domainname = 'http://konoha.ubicg.ynu.ac.jp/maspen';
 	$id = 2;
 }
-$functionname = 'local_exfunctions_get_runking';
+$functionname = 'local_exfunctions_get_submit_runking';
 
 $restformat = 'json';
 
