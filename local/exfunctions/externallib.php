@@ -263,7 +263,7 @@ class local_exfunctions_external extends external_api {
 		global $CFG, $DB;
 		
 		self::validate_parameters(self::set_run_status_parameters(), array('user'=>$user, 'module'=>$module, 'code'=>$code, 'error'=>$error, 'text'=>$text));
-		
+
 		$time = time();
 		$score = $code - $error;
 		$DB->execute("INSERT INTO `mdl_aspen` (`id`, `user`, `module`, `time`, `code`, `error`, `score`) VALUES (NULL, '$user', '$module', '$time', '$code', '$error', '$score')");
@@ -274,12 +274,12 @@ class local_exfunctions_external extends external_api {
 		else{
 			$DB->execute("UPDATE `mdl_aspen_head` SET `time`='$time',`code`='$code',`error`='$error', `score`='$score' WHERE `user`=$user AND `module`=$module");
 		}
-		
+	/*	
 		$obj = $DB->get_record_sql("SELECT id FROM `mdl_aspen` WHERE user='$user' AND module='$module' AND time='$time'");
 		$id = $obj->id;
 		$DB->execute("INSERT INTO `mdl_aspen_text` (`id`, `text`) VALUES ('$id', '$text')");
-echo $text;	
-	/* 	$data = new stdClass();
+	*/	
+		/* 	$data = new stdClass();
 		$data->user   = $user;
 		$data->module = $module;
 		$data->time   = time();

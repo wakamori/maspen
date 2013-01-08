@@ -38,7 +38,7 @@ $(function() {
 					error: Math.floor( Math.random() * 10 ),
 					text: myCodeMirror.getValue() 
 				},
-				success: function(res) {
+				success: function(res) {console.log(res);
 				}
 			});
 		}
