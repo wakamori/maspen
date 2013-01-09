@@ -29,14 +29,14 @@ $(function() {
 				url: ROOTURL + "webservice/rest/server.php",
 				dataType: "text",
 				data: {
-					wstoken: "1d6440b99800118436b01942f0e3d76e",
+					wstoken: "2d1a05efd36f0751a6a9fa7c6e3179e7",
 					wsfunction: "local_exfunctions_set_run_status",
 					moodlewsrestformat: "json",
 					user: USERID,
 					module: ID,
 					code: 10 + Math.floor( Math.random() * 60 ),
 					error: Math.floor( Math.random() * 10 ),
-					text: myCodeMirror.getValue() 
+					text: "hello", 
 				},
 				success: function(res) {console.log(res);
 				}
@@ -50,7 +50,7 @@ $(function() {
 			url: ROOTURL + "webservice/rest/server.php",
 			dataType: "text",
 			data: {
-				wstoken: "1d6440b99800118436b01942f0e3d76e",
+				wstoken: "2d1a05efd36f0751a6a9fa7c6e3179e7",
 				wsfunction: "local_exfunctions_submit_assignment",
 				moodlewsrestformat: "json",
 				id: ID,
@@ -75,7 +75,7 @@ $(function() {
 			url: ROOTURL + "webservice/rest/server.php",
 			dataType: "text",
 			data: {
-				wstoken: "1d6440b99800118436b01942f0e3d76e",
+				wstoken: "2d1a05efd36f0751a6a9fa7c6e3179e7",
 				wsfunction: "local_exfunctions_view_assignment",
 				moodlewsrestformat: "json",
 				id: ID,
@@ -99,7 +99,7 @@ $(function() {
 			url: ROOTURL + "webservice/rest/server.php", 
 			dataType: "text",
 			data: {
-				wstoken: "1d6440b99800118436b01942f0e3d76e",
+				wstoken: "2d1a05efd36f0751a6a9fa7c6e3179e7",
 				wsfunction: "local_exfunctions_get_run_runking",
 				moodlewsrestformat: "json",
 				id: ID
@@ -129,7 +129,7 @@ $(function() {
 			url: ROOTURL + "webservice/rest/server.php", 
 			dataType: "text",
 			data: {
-				wstoken: "1d6440b99800118436b01942f0e3d76e",
+				wstoken: "2d1a05efd36f0751a6a9fa7c6e3179e7",
 				wsfunction: "local_exfunctions_get_submit_runking",
 				moodlewsrestformat: "json",
 				id: ID
