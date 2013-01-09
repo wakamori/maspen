@@ -11,7 +11,7 @@ $(function() {
 	/* button actions */
 	$("#button-run").click(function() {
 		if(myCodeMirror.getValue() != sessionStorage.getItem("previousValue") ||
-			$("#result").text() == String.fromCharCode(160)) {
+				$("#result").text() == String.fromCharCode(160)) {
 			$.ajax({
 				type: "GET",
 				url: PATH + "k/k2js.cgi",
@@ -23,7 +23,7 @@ $(function() {
 				}
 			});
 			sessionStorage.setItem("previousValue", myCodeMirror.getValue());
-			
+
 			$.ajax({
 				type: "GET",
 				url: ROOTURL + "webservice/rest/server.php",
@@ -118,12 +118,12 @@ $(function() {
 				$("#run-3-code").text(obj[2].code);
 				$("#run-3-error").text(obj[2].error);
 				$("#run-3-score").text(obj[2].score);
-				
+
 				$("#modal-ranking").modal("show");
 				prettyPrint();
 			}
 		});
-		
+
 		$.ajax({
 			type: "GET",
 			url: ROOTURL + "webservice/rest/server.php", 
@@ -142,18 +142,57 @@ $(function() {
 				$("#submit-2-time").text(parse_time(obj[1].timemodified));
 				$("#submit-3-name").text(obj[2].username);
 				$("#submit-3-time").text(parse_time(obj[2].timemodified));
-				
+
 				$("#modal-ranking").modal("show");
 				prettyPrint();
 			}
 		});
 	});
 
+	$("#button-graph").click(function() {
+	    google.load('visualization', '1', {packages: ['annotatedtimeline']});
+	    function drawVisualization() {
+			$.ajax({
+				type: "GET",
+				url: ROOTURL + "webservice/rest/server.php",
+				dataType: "text",
+				data: {
+					wstoken: "2d1a05efd36f0751a6a9fa7c6e3179e7",
+					wsfunction: "local_exfunctions_get_run_status",
+					moodlewsrestformat: "json",
+					id: ID,
+					userid: USERID
+				},
+				success: function(res) {
+					var obj = JSON.parse(res);
+				    var data = new google.visualization.DataTable();
+				    data.addColumn('date', 'Date');
+				    data.addColumn('number', 'code');
+				    data.addColumn('number', 'error');
+				    data.addColumn('number', 'score');
+				    
+				    for(var i in obj){obj[i][0] = new Date(obj[i][0]*1000);}
+				    data.addRows(obj);
+				    
+				    var annotatedtimeline = new google.visualization.AnnotatedTimeLine(
+				        document.getElementById('visualization'));
+				    annotatedtimeline.draw(data, {'displayAnnotations': true, 'dateFormat': "yyyy.MM.dd 'at' HH:mm:ss", 'fill': 10, 'thickness': 2});
+					$("#modal-graph").modal("show");
+					prettyPrint();
+				}
+			});
+
+		    google.setOnLoadCallback(drawVisualization);
+			$("#modal-graph").modal("show");
+			prettyPrint();
+	    }
+	});
+
 	function parse_time(ts) {
 		var d = new Date( ts * 1000 );
 		var year  = d.getFullYear();
 		var month = d.getMonth() + 1;
-		    month = ( month   < 10 ) ? '0' + month   : month;
+		month = ( month   < 10 ) ? '0' + month   : month;
 		var day  = ( d.getDate()   < 10 ) ? '0' + d.getDate()   : d.getHours();
 		var hour = ( d.getHours()   < 10 ) ? '0' + d.getHours()   : d.getHours();
 		var min  = ( d.getMinutes() < 10 ) ? '0' + d.getMinutes() : d.getMinutes();

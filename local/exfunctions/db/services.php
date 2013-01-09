@@ -51,6 +51,13 @@ $functions = array(
 				'description' => 'get_submit_runking',
 				'type'        => 'read',
 		),
+		'local_exfunctions_get_run_status' => array(
+				'classname'   => 'local_exfunctions_external',
+				'methodname'  => 'get_run_status',
+				'classpath'   => 'local/exfunctions/externallib.php',
+				'description' => 'get_run_status',
+				'type'        => 'read',
+		),
 		'local_exfunctions_set_run_status' => array(
 				'classname'   => 'local_exfunctions_external',
 				'methodname'  => 'set_run_status',
@@ -68,6 +75,7 @@ $services = array(
 						'local_exfunctions_submit_assignment',
 						'local_exfunctions_get_run_runking',
 						'local_exfunctions_get_submit_runking',
+						'local_exfunctions_get_run_status',
 						'local_exfunctions_set_run_status'),
 				'requiredcapability' =>'',
 				'restrictedusers' => 0,

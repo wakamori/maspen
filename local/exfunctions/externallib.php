@@ -247,6 +247,48 @@ class local_exfunctions_external extends external_api {
 	
 	//--------------------------------------------------------------------------------------------
 	
+	public static function get_run_status_parameters() {
+		return new external_function_parameters(
+				array(
+						'userid' => new external_value(PARAM_INT, 'userid'),
+						'id' => new external_value(PARAM_INT, 'id'),
+				)
+		);
+	}
+	
+	public static function get_run_status($userid, $id) {
+		global $CFG, $DB;
+
+		self::validate_parameters(self::get_run_status_parameters(), array('userid'=>$userid, 'id'=>$id));
+
+		$data = $DB->get_records_sql("SELECT * FROM `mdl_aspen` WHERE user='$userid' AND module='$id'");
+		$list = array();
+		$i = 0;
+		foreach ($data as $datum){
+			$list[$i]['time'] = $datum->time;
+			$list[$i]['code'] = $datum->code;
+			$list[$i]['error'] = $datum->error;
+			$list[$i]['score'] = $datum->score;
+			$i++;
+		}
+		return $list;
+	}
+	
+	public static function get_run_status_returns() {
+		return new external_multiple_structure(
+				new external_single_structure(
+						array(
+								'time'  => new external_value(PARAM_INT, 'time'),
+								'code'  => new external_value(PARAM_INT, 'code'),
+								'error' => new external_value(PARAM_INT, 'error'),
+								'score' => new external_value(PARAM_INT, 'score'),
+						)
+				)
+		);
+	}
+	
+	//--------------------------------------------------------------------------------------------
+	
 	public static function set_run_status_parameters() {
 		return new external_function_parameters(
 				array(
