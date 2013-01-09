@@ -150,42 +150,8 @@ $(function() {
 	});
 
 	$("#button-graph").click(function() {
-	    google.load('visualization', '1', {packages: ['annotatedtimeline']});
-	    function drawVisualization() {
-			$.ajax({
-				type: "GET",
-				url: ROOTURL + "webservice/rest/server.php",
-				dataType: "text",
-				data: {
-					wstoken: "2d1a05efd36f0751a6a9fa7c6e3179e7",
-					wsfunction: "local_exfunctions_get_run_status",
-					moodlewsrestformat: "json",
-					id: ID,
-					userid: USERID
-				},
-				success: function(res) {
-					var obj = JSON.parse(res);
-				    var data = new google.visualization.DataTable();
-				    data.addColumn('date', 'Date');
-				    data.addColumn('number', 'code');
-				    data.addColumn('number', 'error');
-				    data.addColumn('number', 'score');
-				    
-				    for(var i in obj){obj[i][0] = new Date(obj[i][0]*1000);}
-				    data.addRows(obj);
-				    
-				    var annotatedtimeline = new google.visualization.AnnotatedTimeLine(
-				        document.getElementById('visualization'));
-				    annotatedtimeline.draw(data, {'displayAnnotations': true, 'dateFormat': "yyyy.MM.dd 'at' HH:mm:ss", 'fill': 10, 'thickness': 2});
-					$("#modal-graph").modal("show");
-					prettyPrint();
-				}
-			});
-
-		    google.setOnLoadCallback(drawVisualization);
-			$("#modal-graph").modal("show");
-			prettyPrint();
-	    }
+		$("#modal-graph").modal("show");
+		prettyPrint();
 	});
 
 	function parse_time(ts) {
