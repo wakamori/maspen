@@ -8,10 +8,9 @@
  * update by myoan 22/Oct/2012 fix to follow new konoha.
  */
 
-import("cstyle", "while");
-import("cstyle", "break");
-import("konoha.bytes");
-import("js4.regexp");
+import("Syntax.CStyleWhile");
+import("Type.Bytes");
+import("JavaScript.Regexp");
 //import("js4.string");
 
 int power(int base, int num) {
@@ -113,7 +112,7 @@ String Bytes.toString() {
 		//System.p(i);
 		//System.p(c);
 		if (c == "+") {
-			buf.set(setcnt, ' ');
+			buf.set(setcnt, " ".charCodeAt(0));
 			setcnt = setcnt + 1;
 		} else if (c == "%") {
 			String hex = "0x";
@@ -137,7 +136,7 @@ String Bytes.toString() {
 				lf_flag = true;
 			} else if (lf_flag == true && u == 0x0A) {
 				// CR + LF
-				buf.set(setcnt, '\n');
+				buf.set(setcnt, "\n".charCodeAt(0));
 				setcnt = setcnt + 1;
 				lf_flag = false;
 			} else {

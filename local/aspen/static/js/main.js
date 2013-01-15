@@ -17,7 +17,7 @@ $(function() {
 				url: PATH + "k/k2js.cgi",
 				dataType: "text",
 				data: myCodeMirror.getValue(),
-				success: function(res) {
+				success: function(res) {console.log(res);
 					$("#console").text(res);
 					prettyPrint();
 				}
@@ -38,7 +38,7 @@ $(function() {
 					error: Math.floor( Math.random() * 10 ),
 					text: "hello", 
 				},
-				success: function(res) {console.log(res);
+				success: function(res) {
 				}
 			});
 		}
@@ -150,37 +150,6 @@ $(function() {
 	});
 
 	$("#button-graph").click(function() {
-		google.load('visualization', '1', {packages: ['annotatedtimeline']});
-		function drawVisualization() {
-			var data = new google.visualization.DataTable();
-			data.addColumn('date', 'Date');
-			data.addColumn('number', 'code');
-			data.addColumn('number', 'error');
-			data.addColumn('number', 'score');
-
-			var jsonData = $.ajax({
-				type: "GET",
-				url: ROOTURL + "webservice/rest/server.php",
-				dataType: "text",
-				data: {
-					wstoken: "2d1a05efd36f0751a6a9fa7c6e3179e7",
-					wsfunction: "local_exfunctions_get_run_status",
-					moodlewsrestformat: "json",
-					id: ID,
-					userid: USERID
-				}
-			}).responseText;
-			var obj = JSON.parse(jsonData);
-
-			for(var i in obj){obj[i][0] = new Date(obj[i][0]*1000);}
-			data.addRows(obj);
-
-			var annotatedtimeline = new google.visualization.AnnotatedTimeLine(
-					document.getElementById('visualization'));
-			annotatedtimeline.draw(data, {'displayAnnotations': true, 'dateFormat': "yyyy.MM.dd 'at' HH:mm:ss", 'fill': 10, 'thickness': 2});
-		}
-
-		google.setOnLoadCallback(drawVisualization);
 		$("#modal-graph").modal("show");
 		prettyPrint();
 	});

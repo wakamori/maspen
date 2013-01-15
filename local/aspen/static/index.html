@@ -25,8 +25,44 @@
 
 <script src="%PATH%static/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+                google.load('visualization', '1', {packages: ['annotatedtimeline']});
+                function drawVisualization() {
+                        var data = new google.visualization.DataTable();
+                        data.addColumn('date', 'Date');
+                        data.addColumn('number', 'code');
+                        data.addColumn('number', 'error');
+                        data.addColumn('number', 'score');
+
+			var jsonData = $.ajax({
+                                url: ROOTURL + "webservice/rest/server.php",
+                                dataType: "json",
+				async: false,
+                                data: {
+                                        wstoken: "2d1a05efd36f0751a6a9fa7c6e3179e7",
+                                        wsfunction: "local_exfunctions_get_run_status",
+                                        moodlewsrestformat: "json",
+                                        id: ID,
+                                        userid: USERID
+                                }
+                        }).responseText;
+                        var obj = jQuery.parseJSON(jsonData);
+			var array = [];
+                        for(var i in obj){
+				array.push([new Date(obj[i]['time']*1000), obj[i]['code'], obj[i]['error'], obj[i]['score'] ])
+			}
+                        data.addRows(array);
+
+                        var annotatedtimeline = new google.visualization.AnnotatedTimeLine(
+                                        document.getElementById('visualization'));
+                        annotatedtimeline.draw(data, {'displayAnnotations': true, 'dateFormat': "yyyy.MM.dd 'at' HH:mm:ss", 'fill': 10, 'thickness': 2});
+                }
+
+                google.setOnLoadCallback(drawVisualization);
+</script>
 </head>
 <body>
+
 <!--[if lt IE 7]>
     <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
 <![endif]-->
@@ -184,8 +220,10 @@
             <h3 id="modal-graph">Graph</h3>
         </div>
         <div class="modal-body">
-            <div id="visualization" style="width: 600px; height: 400px;"></div>
-        </div>
+<!--            <div id="visualization" style="width: 520px; height: 400px;"></div> -->
+		<iframe src="static/graph.html"  width="520" height="390">
+		</iframe>
+       </div>
     </div>
 
 					<p><button id="button-run" class="btn btn-primary"><i class="icon-play icon-white"></i> Run</button>
@@ -193,6 +231,7 @@
 					<button id="button-status" class="btn"><i class="icon-user"></i> Status</button>
 					<button id="button-ranking" class="btn btn-info"><i class="icon-list"></i> Ranking</button>
 					<button id="button-graph" class="btn btn-danger"><i class="icon-signal"></i> Graph</button></p>
+
 					<div class="row-fluid">
 						<div class="span6">
 							<h3>Source</h3>

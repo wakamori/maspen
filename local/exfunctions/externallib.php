@@ -316,11 +316,11 @@ class local_exfunctions_external extends external_api {
 		else{
 			$DB->execute("UPDATE `mdl_aspen_head` SET `time`='$time',`code`='$code',`error`='$error', `score`='$score' WHERE `user`=$user AND `module`=$module");
 		}
-	/*	
+		
 		$obj = $DB->get_record_sql("SELECT id FROM `mdl_aspen` WHERE user='$user' AND module='$module' AND time='$time'");
 		$id = $obj->id;
-		$DB->execute("INSERT INTO `mdl_aspen_text` (`id`, `text`) VALUES ('$id', '$text')");
-	*/	
+		echo $DB->execute("INSERT INTO `mdl_aspen_text` (`id`, `text`) VALUES ('?', '?')", array($id, $text));
+		
 		/* 	$data = new stdClass();
 		$data->user   = $user;
 		$data->module = $module;

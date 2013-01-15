@@ -1,13 +1,17 @@
 #!/usr/local/bin/minikonoha
 
 import("dscript.subproc");
-import("js4.array");
-import("js4.string");
-import("konoha.file");
+import("JavaScript.Array");
+import("JavaScript.String");
+import("Type.File");
 import("posix.path");
 import("posix.process");
 
 load("./decodeURI.k");
+
+@Public String String.trim() {
+	return StringUtil.trim(this);
+}
 
 void main() {
 	SubProc sp = new SubProc("/bin/mktemp");
