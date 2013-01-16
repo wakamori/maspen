@@ -12,16 +12,20 @@ $(function() {
 	$("#button-run").click(function() {
 		if(myCodeMirror.getValue() != sessionStorage.getItem("previousValue") ||
 				$("#result").text() == String.fromCharCode(160)) {
-			$.ajax({
-				type: "GET",
-				url: PATH + "k/k2js.cgi",
-				dataType: "text",
-				data: myCodeMirror.getValue(),
-				success: function(res) {console.log(res);
-					$("#console").text(res);
-					prettyPrint();
-				}
-			});
+			var iframedoc;
+      			function onLoad() {
+        			var iframe = document.createElement("iframe");
+				document.getElementById("frame").appendChild(iframe);
+
+				if (document.all) {
+					iframedoc = iframe.contentWindow.document;
+				} else {
+					iframedoc = iframe.contentDocument;
+				}	
+				iframedoc.writeln('<script src="' + PATH + 'k/k2js.cgi?data="' + myCodeMirror.getValue() +  '"></script>');
+     			}
+
+           		window.onload = onLoad;	
 			sessionStorage.setItem("previousValue", myCodeMirror.getValue());
 
 			$.ajax({
