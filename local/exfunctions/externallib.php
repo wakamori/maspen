@@ -165,21 +165,21 @@ class local_exfunctions_external extends external_api {
 		return new external_function_parameters(
 				array(
 						'id' => new external_value(PARAM_INT, 'id'),
+						'userid' => new external_value(PARAM_INT, 'userid', VALUE_DEFAULT, 0),
 				)
 		);
 	}
 	
-	public static function get_run_runking($id) {
+	public static function get_run_runking($id, $userid = 0) {
 		global $CFG, $DB;
 	
-		self::validate_parameters(self::get_run_runking_parameters(), array('id'=>$id));
+		self::validate_parameters(self::get_run_runking_parameters(), array('id'=>$id, 'userid'=>$userid));
 	
 		$data = $DB->get_records_sql("SELECT * FROM mdl_aspen_head WHERE module=$id ORDER BY score DESC LIMIT 3");
 		$list = array();
 		$i = 0;
 		foreach ($data as $datum){
-			$id = $datum->user;
-			$user =  $DB->get_record_sql("SELECT username FROM mdl_user WHERE id=$id");
+			$user =  $DB->get_record_sql("SELECT username FROM mdl_user WHERE id=$datum->user");
 			$list[$i]['user']  = $user->username;
 			$list[$i]['time']  = $datum->time;
 			$list[$i]['code']  = $datum->code;
@@ -187,6 +187,26 @@ class local_exfunctions_external extends external_api {
 			$list[$i]['score'] = $datum->score;
 			$i++;
 		}
+		
+		while ($i < 3){
+			$list[$i]['user']  = NULL;
+			$list[$i]['time']  = NULL;
+			$list[$i]['code']  = NULL;
+			$list[$i]['error'] = NULL;
+			$list[$i]['score'] = NULL;
+			$i++;
+		}
+		
+		if($userid != 0){
+			$data = $DB->get_record_sql("SELECT * FROM mdl_aspen_head WHERE user=$userid AND module=$id");
+			$user =  $DB->get_record_sql("SELECT username FROM mdl_user WHERE id=$userid");
+			$list[3]['user']  = $user->username;
+			$list[3]['time']  = $data->time;
+			$list[3]['code']  = $data->code;
+			$list[3]['error'] = $data->error;
+			$list[3]['score'] = $data->score;
+		}
+		
 		return $list;
 	}
 	
@@ -210,14 +230,15 @@ class local_exfunctions_external extends external_api {
 		return new external_function_parameters(
 				array(
 						'id' => new external_value(PARAM_INT, 'id'),
+						'userid' => new external_value(PARAM_INT, 'userid', VALUE_DEFAULT, 0),
 				)
 		);
 	}
 	
-	public static function get_submit_runking($id) {
+	public static function get_submit_runking($id, $userid=0) {
 		global $CFG, $DB;
 	
-		self::validate_parameters(self::get_submit_runking_parameters(), array('id'=>$id));
+		self::validate_parameters(self::get_submit_runking_parameters(), array('id'=>$id, 'userid'=>$userid));
 		
 		$data = $DB->get_record_sql("SELECT instance FROM mdl_course_modules WHERE id='$id' AND module=1");
 		$assignment = $data->instance;
@@ -225,12 +246,26 @@ class local_exfunctions_external extends external_api {
 		$list = array();
 		$i = 0;
 		foreach ($data as $datum){
-			$id = $datum->userid;
-			$user =  $DB->get_record_sql("SELECT username FROM mdl_user WHERE id=$id");
+			$user = $DB->get_record_sql("SELECT username FROM mdl_user WHERE id=$datum->userid");
 			$list[$i]['username'] = $user->username;
 			$list[$i]['timemodified'] = $datum->timemodified;
 			$i++;
 		}
+		
+		while ($i < 3){
+			$list[$i]['username']  = NULL;
+			$list[$i]['timemodified'] = NULL;
+			$i++;
+		}
+		
+		
+		if($userid != 0){
+			$data = $DB->get_record_sql("SELECT * FROM mdl_assign_submission WHERE assignment=$assignment AND userid=$userid");
+			$user = $DB->get_record_sql("SELECT username FROM mdl_user WHERE id=$userid");
+			$list[3]['username'] = $user->username;
+			$list[3]['timemodified'] = $data->timemodified;
+		}
+		
 		return $list;
 	}
 	

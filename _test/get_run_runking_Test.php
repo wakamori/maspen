@@ -2,6 +2,7 @@
 $token = '08785ff27bbf462a64cca1fee185255f';
 $domainname = 'http://localhost/maspen';
 $id = 2;
+$userid = 5;
 if(0){
 	$token = '863941fa304ba6566e5c392515286aa3';
 	$domainname = 'http://konoha.ubicg.ynu.ac.jp/maspen';
@@ -11,7 +12,7 @@ $functionname = 'local_exfunctions_get_run_runking';
 
 $restformat = 'json';
 
-$params = array('id'=> $id);
+$params = array('id'=> $id, 'userid'=>$userid);
 
 $serverurl = $domainname . '/webservice/rest/server.php'. '?wstoken=' . $token . '&wsfunction='.$functionname;
 
