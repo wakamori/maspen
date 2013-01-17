@@ -106,10 +106,11 @@ $(function() {
 				wstoken: "2d1a05efd36f0751a6a9fa7c6e3179e7",
 				wsfunction: "local_exfunctions_get_run_runking",
 				moodlewsrestformat: "json",
-				id: ID
+				id: ID,
+				userid: USERID
 			},
 			success: function(res) {
-				var obj = JSON.parse(res);
+				var obj = JSON.parse(res);console.log(obj);
 				$("#run-1-name").text(obj[0].user);
 				$("#run-1-code").text(obj[0].code);
 				$("#run-1-error").text(obj[0].error);
@@ -122,6 +123,10 @@ $(function() {
 				$("#run-3-code").text(obj[2].code);
 				$("#run-3-error").text(obj[2].error);
 				$("#run-3-score").text(obj[2].score);
+				$("#run-4-name").text(obj[3].user);
+                                $("#run-4-code").text(obj[3].code);
+                                $("#run-4-error").text(obj[3].error);
+                                $("#run-4-score").text(obj[3].score);
 
 				$("#modal-ranking").modal("show");
 				prettyPrint();
@@ -136,7 +141,8 @@ $(function() {
 				wstoken: "2d1a05efd36f0751a6a9fa7c6e3179e7",
 				wsfunction: "local_exfunctions_get_submit_runking",
 				moodlewsrestformat: "json",
-				id: ID
+				id: ID,
+				userid: USERID
 			},
 			success: function(res) {
 				var obj = JSON.parse(res);
@@ -146,6 +152,8 @@ $(function() {
 				$("#submit-2-time").text(parse_time(obj[1].timemodified));
 				$("#submit-3-name").text(obj[2].username);
 				$("#submit-3-time").text(parse_time(obj[2].timemodified));
+				$("#submit-4-name").text(obj[3].username);
+				$("#submit-4-time").text(parse_time(obj[3].timemodified));
 
 				$("#modal-ranking").modal("show");
 				prettyPrint();
@@ -154,6 +162,7 @@ $(function() {
 	});
 
 	$("#button-graph").click(function() {
+		document.getElementById("graph").contentWindow.location.reload();		
 		$("#modal-graph").modal("show");
 		prettyPrint();
 	});

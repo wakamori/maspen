@@ -8,15 +8,15 @@
  * update by myoan 22/Oct/2012 fix to follow new konoha.
  */
 
-//import("Syntax.CStyleWhile");
-//import("Type.Bytes");
-//import("JavaScript.Regexp");
-////import("js4.string");
+import("Syntax.CStyleWhile");
+import("Type.Bytes");
+import("JavaScript.Regexp");
+//import("js4.string");
 
-import("cstyle", "while");
-import("cstyle", "break");
-import("konoha.bytes");
-import("js4.regexp");
+//import("cstyle", "while");
+//import("cstyle", "break");
+//import("konoha.bytes");
+//import("js4.regexp");
 
 int power(int base, int num) {
 	int i = 0;

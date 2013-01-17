@@ -2,10 +2,9 @@
  * template.k : template script for output initializr javascript
  */
 
-import("apache");
-import("cstyle", "null");
-import("cstyle", "while");
-import("js4.array");
+import("Lib.Apache");
+import("cstyle");
+import("JavaScript.Array");
 import("java2.class");
 import("konoha.const");
 import("konoha.file");

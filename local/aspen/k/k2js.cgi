@@ -1,14 +1,16 @@
 #!/usr/local/bin/minikonoha
 
 import("dscript.subproc");
-//import("JavaScript.Array");
-//import("JavaScript.String");
-//import("Type.File");
-import("js4.array");
-import("js4.string");
-import("konoha.file");
+import("JavaScript.Array");
+import("JavaScript.String");
+import("Type.File");
 import("posix.path");
 import("posix.process");
+
+//import("js4.array");
+//import("js4.string");
+//import("konoha.file");
+
 
 load("./decodeURI.k");
 

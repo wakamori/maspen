@@ -161,26 +161,33 @@
 	           </thead>
 	           <tbody>
 	               <tr>
-                     <td>1</td>
-				     <td id="run-1-name"></td>
-				     <td id="run-1-code"></td>
-				     <td id="run-1-error"></td>
-					 <td id="run-1-score"></td>
+                         <td>1</td>
+			 <td id="run-1-name"></td>
+			 <td id="run-1-code"></td>
+			 <td id="run-1-error"></td>
+			 <td id="run-1-score"></td>
 	               </tr>
 	               <tr>
 	                 <td>2</td>
 	                 <td id="run-2-name"></td>
 	                 <td id="run-2-code"></td>
 	                 <td id="run-2-error"></td>
-			         <td id="run-2-score"></td>
+			 <td id="run-2-score"></td>
 	               </tr>
 	               <tr>
 	                 <td>3</td>
 	                 <td id="run-3-name"></td>
 	                 <td id="run-3-code"></td>
 	                 <td id="run-3-error"></td>
-			         <td id="run-3-score"></td>
+			 <td id="run-3-score"></td>
 	               </tr>
+		       <tr>
+                         <td>you</td>
+                         <td id="run-4-name"></td>
+                         <td id="run-4-code"></td>
+                         <td id="run-4-error"></td>
+                         <td id="run-4-score"></td>
+                       </tr>
 	           </tbody>
 	       </table>
 	       <h4>Submit</h4>
@@ -208,6 +215,12 @@
 	                 <td id="submit-3-name"></td>
 	                 <td id="submit-3-time"></td>
 	               </tr>
+		       <tr>
+                         <td>you</td>
+                         <td id="submit-4-name"></td>
+                         <td id="submit-4-time"></td>
+                       </tr>
+
 	           </tbody>
 	      </table>
 	  </div>
@@ -221,7 +234,7 @@
         </div>
         <div class="modal-body">
 <!--            <div id="visualization" style="width: 520px; height: 400px;"></div> -->
-		<iframe src="static/graph.html"  width="520" height="390">
+		<iframe src="static/graph.html?id=%ID%&userid=%USERID%"  width="520" height="390" id="graph">
 		</iframe>
        </div>
     </div>
